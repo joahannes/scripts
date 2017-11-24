@@ -12,7 +12,9 @@ Criar pasta para cada algoritmo (conforme pastas no repositório) e executar com
 
 Cobertura:
 
-![Cobertura](https://github.com/joahannes/scripts/blob/master/img/cobertura.png)
+<p align="center">
+  <img src="https://github.com/joahannes/scripts/blob/master/img/cobertura.png" width="350"/>
+</p>
 
 Número de pacotes transmitidos:
 
