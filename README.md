@@ -10,24 +10,15 @@ Criar pasta para cada algoritmo (conforme pastas no repositório) e executar com
 
 ### Resultado ###
 
-Cobertura:
-
 <p align="center">
-  <img src="https://github.com/joahannes/scripts/blob/master/img/cobertura.png" width="350"/>
+	<img src="https://github.com/joahannes/scripts/blob/master/img/cobertura.png" width="400"/>
+	<img src="https://github.com/joahannes/scripts/blob/master/img/transmitidos.png" width="400"/>
 </p>
 
-Número de pacotes transmitidos:
-
-![Cobertura](https://github.com/joahannes/scripts/blob/master/img/transmitidos.png)
-
-Atraso:
-
-![Cobertura](https://github.com/joahannes/scripts/blob/master/img/atraso.png)
-
-Colisões na camada MAC:
-
-![Cobertura](https://github.com/joahannes/scripts/blob/master/img/colisoes.png)
-
+<p align="center">
+	<img src="https://github.com/joahannes/scripts/blob/master/img/atraso.png" width="400"/>
+	<img src="https://github.com/joahannes/scripts/blob/master/img/colisoes.png" width="400"/>
+</p>
 
 ### Contato ###
 
