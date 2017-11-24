@@ -21,7 +21,7 @@ LINES = {"DDRX" : "-", "CARRO" : "--", "UV-CAST" : "-.", "CC-DEGREE" : "-", "Flo
 #VARIABLES PLOT
 X_LEGEND = 'Densidade (veículos/km$^2$)'.decode('utf-8')
 x_lim = 750
-formato = '.eps'
+formato = '.png'
 
 #CONFIDENCE INTERVAL - BAR ERROR
 def confidence_interval(values):
