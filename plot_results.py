@@ -11,18 +11,17 @@ import numpy as np
 # VARIABLES LOG
 # 0 REPLICATION, 1 HOST, 2 LOSS, 3 DELAY, 4 RECEIVED, 5 TRANSMITTED, 6 DUPLICATES, 7 COLLISIONS
 
-ALGORITHMS = ("DDRX", "CARRO", "UV-CAST", "Flooding") #
+ALGORITHMS = ("DDRX", "CARRO", "UV-CAST", "CC-DEGREE", "Flooding") #
 TRAFFICS = (100,200,300,400,500,600,700) #
 
-COLORS = {"DDRX" : "k", "CARRO" : "r", "UV-CAST" : "magenta", "Flooding" : "g"}
-MARKS = {"DDRX" : "H", "CARRO" : "^", "UV-CAST" : "*", "Flooding" : "s"}
-LINES = {"DDRX" : "-", "CARRO" : "--", "UV-CAST" : "-", "Flooding" : ":"}
+COLORS = {"DDRX" : "k", "CARRO" : "r", "UV-CAST" : "b", "CC-DEGREE" : "magenta", "Flooding" : "g"}
+MARKS = {"DDRX" : "H", "CARRO" : "^", "UV-CAST" : "d", "CC-DEGREE" : "*", "Flooding" : "s"}
+LINES = {"DDRX" : "-", "CARRO" : "--", "UV-CAST" : "-.", "CC-DEGREE" : "-", "Flooding" : ":"}
 
 #VARIABLES PLOT
 X_LEGEND = 'Densidade (veículos/km$^2$)'.decode('utf-8')
 x_lim = 750
 formato = '.eps'
-shadowLegend = False
 
 #CONFIDENCE INTERVAL - BAR ERROR
 def confidence_interval(values):
@@ -83,8 +82,8 @@ def plot_coverage():
     
     #plt.yscale("log")
     
-    plt.grid()
-    plt.legend(numpoints=1, loc=3, shadow=shadowLegend)
+    plt.grid() 
+    plt.legend(numpoints=1, loc=3, fancybox=True)
     
     fig = plt.gcf()
     fig.set_size_inches(6.8, 5.5)
@@ -147,7 +146,7 @@ def plot_delay():
     plt.yscale("log")
     
     plt.grid()    
-    plt.legend(numpoints=1, loc=2, shadow=shadowLegend)
+    plt.legend(numpoints=1, loc=2, fancybox=True)
     
     fig = plt.gcf()
     fig.set_size_inches(6.8, 5.5)
@@ -208,7 +207,7 @@ def plot_transmitted():
     
     plt.grid()
     
-    plt.legend(numpoints=1, loc=2, shadow=shadowLegend)
+    plt.legend(numpoints=1, loc=2, fancybox=True)
     
     fig = plt.gcf()
     fig.set_size_inches(6.8, 5.5)
@@ -268,7 +267,7 @@ def plot_colisions():
     plt.yscale("log")
     
     plt.grid()
-    plt.legend(numpoints=1, loc=2, shadow=shadowLegend)
+    plt.legend(numpoints=1, loc=2, fancybox=True)
     
     fig = plt.gcf()
     fig.set_size_inches(6.8, 5.5)

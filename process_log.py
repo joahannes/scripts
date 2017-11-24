@@ -2,7 +2,7 @@
 
 import os
 
-ALGORITHMS = ("DDRX", "CARRO", "UV-CAST", "Flooding")
+ALGORITHMS = ("CC-DEGREE","DDRX")
 TRAFFICS = (100,200,300,400,500,600,700)
 REPLICATIONS = 10                
 
@@ -32,7 +32,7 @@ def build_summary_files():
                     if "scalar VANET.host" in line:                        
                         line_splited = line.split()
                         
-                        if "messagesReceived:sum" in line:
+                        if "messagesReceived:sum" in line: #CHANGE: isInROI:sum -> CC-DEGREE and UV-CAST
                             host = line_splited[1].split("]")[0][11:]
                             summary_file.write(str(replication) + "\t" + host + "\t")
                             
@@ -69,7 +69,7 @@ def build_summary_files():
                             duplicated = line_splited[3]                             
                             summary_file.write(duplicated + "\t")
                             
-                        if "TotalLostPackets" in line:                        
+                        if "TotalLostPackets" in line: #CHANGE: collisions:sum -> CC-DEGREE and UV-CAST                      
                             lost = line_splited[3]                             
                             summary_file.write(lost + "\n")
                                                                                                                                                              
