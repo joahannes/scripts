@@ -1,29 +1,31 @@
 # README #
 
-Repositório contendo o protocolo de Disseminação de Dados baseado em Redes compleXas (DDRX) para Redes Veiculares Ad Hoc.
-
-### Observações ###
-
-* EM BREVE
+Scripts para plotagem de gráficos para avaliação de protocolos de disseminação de dados em Redes Veiculares Ad Hoc.
 
 ### Executando ###
 
-Acessar o diretório contendo o .ini do projeto:
+Criar pasta para cada algoritmo (conforme pastas no repositório) e executar com o comando:
 
-	> cd ../workspace/DDRX/simulations
+	> python plot_results.py
 
-Executar a simulação de forma paralelizada com [GNU Parallel](https://www.gnu.org/software/parallel/):
-	
-	> parallel -j10 ../src/DDRX -r {1} -u Cmdenv -n .:../src:../../veins/examples/veins:../../veins/src/veins -l ../../veins/src/veins omnetpp.ini ::: {0..n}
+### Resultado ###
 
-Onde:
+Cobertura:
 
-* -j é o número de núcleos que serão utilizados.
-* ::: {0..n} é a quantidade de cenários multiplicado pela quantidade de seeds. Exemplo: 2 cenários com 10 seeds cada = {0..19} = 20 simulações.
+![Cobertura](https://github.com/joahannes/scripts/blob/master/img/cobertura.png)
 
-Acompanhar os processos executando com o comando [htop](http://www.hardware.com.br/artigos/htop/):
+Número de pacotes transmitidos:
 
-	> htop -u nome_usuario
+![Cobertura](https://github.com/joahannes/scripts/blob/master/img/transmitidos.png)
+
+Atraso:
+
+![Cobertura](https://github.com/joahannes/scripts/blob/master/img/atraso.png)
+
+Colisões na camada MAC:
+
+![Cobertura](https://github.com/joahannes/scripts/blob/master/img/colisoes.png)
+
 
 ### Contato ###
 
