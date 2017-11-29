@@ -4,8 +4,6 @@ from __future__ import division
 
 import math
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_pdf import PdfPages
-
 import numpy as np
 
 # VARIABLES LOG
@@ -71,9 +69,9 @@ def plot_coverage():
             confidence_intervals.append(confidence_interval(values))
             #print(algorithm, " - confidence: ", confidence_interval(values))
      
-        plt.errorbar(TRAFFICS, coverage_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2)
+        plt.errorbar(TRAFFICS, coverage_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2, zorder=3)
 
-    yticks = np.arange(86, 102, 2)
+    yticks = np.arange(88, 102, 2)
     plt.xlabel(X_LEGEND)
     plt.ylabel('Cobertura (%)')
     plt.xlim(50, x_lim)
@@ -83,7 +81,7 @@ def plot_coverage():
     #plt.yscale("log")
     
     plt.grid() 
-    plt.legend(numpoints=1, loc=3, fancybox=True)
+    plt.legend(numpoints=1, loc=4, fancybox=True)
     
     fig = plt.gcf()
     fig.set_size_inches(6.8, 5.5)
@@ -134,7 +132,7 @@ def plot_delay():
             confidence_intervals.append(confidence_interval(values))
             #print(algorithm, " - confidence: ", confidence_interval(values))
      
-        plt.errorbar(TRAFFICS, delay_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2)
+        plt.errorbar(TRAFFICS, delay_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2, zorder=3)
 
     #yticks = np.arange(50, 110, 10)
     plt.xlabel(X_LEGEND)
@@ -194,7 +192,7 @@ def plot_transmitted():
             confidence_intervals.append(confidence_interval(values))
             #print(algorithm, " - confidence: ", confidence_interval(values))
      
-        plt.errorbar(TRAFFICS, transmitted_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2)
+        plt.errorbar(TRAFFICS, transmitted_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2, zorder=3)
 
     #yticks = np.arange(50, 110, 10)
     plt.xlabel(X_LEGEND)
@@ -255,7 +253,7 @@ def plot_colisions():
             confidence_intervals.append(confidence_interval(values))
             #print(algorithm, " - confidence: ", confidence_interval(values))
      
-        plt.errorbar(TRAFFICS, colisions_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2)
+        plt.errorbar(TRAFFICS, colisions_values, yerr=confidence_intervals, label=algorithm, color=COLORS[algorithm], marker=MARKS[algorithm], linestyle=LINES[algorithm], markersize = 8, linewidth = 2, zorder=3)
 
     #yticks = np.arange(0, 11, 1)
     plt.xlabel(X_LEGEND)
