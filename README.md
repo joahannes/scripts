@@ -1,4 +1,3 @@
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](#)
 # README #
 
 Scripts para plotagem de gráficos utilizando a linguagem Python.
