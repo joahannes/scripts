@@ -1,23 +1,28 @@
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
+
 # README #
 
-Scripts para plotagem de gráficos para avaliação de protocolos de disseminação de dados em Redes Veiculares Ad Hoc.
+Scripts para plotagem de gráficos utilizando a linguagem Python.
 
 ### Executando ###
 
 Criar pasta para cada algoritmo (conforme pastas no repositório) e executar com o comando:
 
-	> python plot_results.py
+	$ python plot_linha.py
+	$ python plot_barra.py
 
-### Resultado ###
+# Resultado #
+
+### Gráfico de Linha (plot_linha.py) ###
 
 <p align="center">
 	<img src="https://github.com/joahannes/scripts/blob/master/img/cobertura.png" width="400"/>
-	<img src="https://github.com/joahannes/scripts/blob/master/img/transmitidos.png" width="400"/>
 </p>
 
+### Gráfico de Barras (plot_barra.py) ###
+
 <p align="center">
-	<img src="https://github.com/joahannes/scripts/blob/master/img/atraso.png" width="400"/>
-	<img src="https://github.com/joahannes/scripts/blob/master/img/colisoes.png" width="400"/>
+	<img src="https://github.com/joahannes/scripts/blob/master/img/cobertura_barra.png" width="400"/>
 </p>
 
 ### Contato ###
