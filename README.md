@@ -1,5 +1,3 @@
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
-
 # README #
 
 Scripts para plotagem de gráficos utilizando a linguagem Python.
@@ -10,27 +8,16 @@ Criar pasta para cada algoritmo (conforme pastas no repositório) e executar com
 
 	$ python plot_linha.py
 	$ python plot_barra.py
-<<<<<<< HEAD
-
-# Resultado #
-
-### Gráfico de Linha (plot_linha.py) ###
-=======
 
 # Resultado #
 
 ### Gráfico de Linha (plot_linha.py): ###
->>>>>>> ef241c9081c307a8cbeada6e2a0d14109fbc4456
 
 <p align="center">
 	<img src="https://github.com/joahannes/scripts/blob/master/img/cobertura.png" width="400"/>
 </p>
 
-<<<<<<< HEAD
 ### Gráfico de Barras (plot_barra.py) ###
-=======
-### Gráfico de Barras (plot_barra.py): ###
->>>>>>> ef241c9081c307a8cbeada6e2a0d14109fbc4456
 
 <p align="center">
 	<img src="https://github.com/joahannes/scripts/blob/master/img/cobertura_barra.png" width="400"/>
