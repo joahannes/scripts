@@ -1,9 +1,9 @@
 # -*- coding: UTF-8 -*-
 
-# File name: tms_plot.py
+# File name: plot_tms.py
 # Author: Joahannes Costa
 # Data create: 03/12/2017
-# Data last modified: 06/12/2017
+# Data last modified: 03/12/2017
 # Python version: 2.7
 # Description: captura dados dos arquivos summary e plota graficos de barras
 
@@ -14,9 +14,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 ALGORITHMS = ("Mobilidade", "TMS", "TMS-DDRX") #
-TRAFFICS = (700, 900, 1100, 1300,1500) #
+TRAFFICS = (700, 900, 1100, 1300, 1500) #
 COLORS = {"Mobilidade" : "r", "TMS" : "blue", "TMS-DDRX" : "gold"} # TMS: #42413e, TMS-DDRX: #efc034
-formato = ".png"
+formato = ".eps"
+x_fig = 7.8 #7.8
+y_fig = 5.0 #6.1
 
 # summary_file:
 # 0 REPLICATION
@@ -57,7 +59,7 @@ def plot_cobertura():
 				if replication == int(line.split()[0]):
 					if line.split()[3] != "0":
 						coverage += 1
-
+				
 				else:
 				# CHANGED
 					if not coverage == 0:
@@ -77,10 +79,10 @@ def plot_cobertura():
 		ax = plt.subplot(111)
 		
 		if(algorithm == "TMS"):
-			ax.bar(x-0.15, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='//', label="TMS", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x-0.15, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='//', label="FASTER", error_kw=dict(elinewidth=1,ecolor='black'))
 		
 		if(algorithm == "TMS-DDRX"):
-			ax.bar(x+0.15, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='\\', label="TMS-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x+0.15, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
 	ax.legend(loc=2, ncol=2, fancybox=True)
 	
@@ -142,10 +144,10 @@ def plot_transmitidos():
 		ax = plt.subplot(111)
 		
 		if(algorithm == "TMS"):
-			ax.bar(x-0.15, transmitted_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='//', label="TMS", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x-0.15, transmitted_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='//', label="FASTER", error_kw=dict(elinewidth=1,ecolor='black'))
 		
 		if(algorithm == "TMS-DDRX"):
-			ax.bar(x+0.15, transmitted_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='\\', label="TMS-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x+0.15, transmitted_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
 	ax.legend(loc=2, ncol=2, fancybox=True)
 	
@@ -163,8 +165,80 @@ def plot_transmitidos():
 	plt.grid()
 	
 	fig = plt.gcf()
-	fig.set_size_inches(7.8, 6.1) #x, y
+	#fig.set_size_inches(7.8, 6.1) #x, y
 	fig.savefig('tms_transmitidos' + formato, dpi=200)
+	
+	plt.show()
+
+#VELOCIDADE_MEDIA
+def plot_velocidadeMedia():
+	
+	for algorithm in ALGORITHMS:
+		speed_values = []
+		confidence_intervals = []
+		
+		velocidadeMedia = float(0)
+		
+		for traffic in TRAFFICS:
+			values = []
+			file_input_name =  algorithm + "/summary-" + str(traffic) + ".txt"
+			
+			replication = 0
+			velocidadeMedia = 0.0
+			
+			for line in open(file_input_name):
+				
+				if replication == int(line.split()[0]):
+					#print(traffc , " - " , replication , file_input_name , line)
+					if line.split()[6] != "0":
+						velocidadeMedia += float(line.split()[8]) / float(line.split()[6])
+						
+				else:
+				# CHANGED
+					if not velocidadeMedia == 0:
+						values.append(velocidadeMedia)
+						velocidadeMedia = 0.0
+				
+				while replication != int(line.split()[0]):
+					replication += 1
+					
+			#print ("\n")
+			values = np.divide(values,traffic)
+			#values = np.divide(values,3.6)
+			
+			speed_values.append(np.mean(values))
+			confidence_intervals.append(confidence_interval(values))
+		
+		x = np.arange(2, 7, dtype=np.float)
+		ax = plt.subplot(111)
+		
+		if(algorithm == "Mobilidade"):
+			ax.bar(x-0.25, speed_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='', label="MOC", error_kw=dict(elinewidth=1,ecolor='black'))
+		
+		if(algorithm == "TMS"):
+			ax.bar(x, speed_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='//', label="FASTER", error_kw=dict(elinewidth=1,ecolor='black'))
+			
+		if(algorithm == "TMS-DDRX"):
+			ax.bar(x+0.25, speed_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
+	
+	ax.legend(loc=2, ncol=3, fancybox=True)
+	
+	ax.set_ylabel(u"Velocidade Média (km/h)")
+	ax.set_xlabel(u"Densidade (veiculos/km²")
+	
+	#yticks = np.arange(0, 10, 1)
+	#ax.set_yticks(yticks)
+
+	ax.set_xticks(x)
+	ax.set_xticklabels(TRAFFICS)
+	ax.set_xlim(1.4,6.6)
+	
+	ax.set_axisbelow(3)
+	plt.grid()
+	
+	fig = plt.gcf()
+	fig.set_size_inches(x_fig, y_fig) #x, y
+	fig.savefig('tms_velocidadeMedia' + formato, dpi=200)
 	
 	plt.show()
 
@@ -185,10 +259,7 @@ def plot_tempoTotal():
 			for line in open(file_input_name):
 				if replication == int(line.split()[0]):
 					if line.split()[6] != "0":
-						if int(line.split()[5]) > 300:
-							tempoTotal += int(line.split()[6]) + int(line.split()[5])
-						else:
-							tempoTotal += int(line.split()[6])
+						tempoTotal += float(line.split()[6])
 
 				else:
 				# CHANGED
@@ -209,13 +280,13 @@ def plot_tempoTotal():
 		x = np.arange(2, 7, dtype=np.float)
 		ax = plt.subplot(111)
 		if(algorithm == "Mobilidade"):
-			ax.bar(x-0.2, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='', label="Mobilidade", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x-0.25, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='', label="MOC", error_kw=dict(elinewidth=1,ecolor='black'))
 			
 		if(algorithm == "TMS"):
-			ax.bar(x, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='//', label="TMS", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='//', label="FASTER", error_kw=dict(elinewidth=1,ecolor='black'))
 			
 		if(algorithm == "TMS-DDRX"):
-			ax.bar(x+0.2, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='\\', label="TMS-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x+0.25, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 		
 	#ax.legend(numpoints=1, loc='upper center', ncol=3, fancybox=True, bbox_to_anchor=(0.5, +1.15))
 	ax.legend(loc=2, ncol=3, fancybox=True)
@@ -234,7 +305,7 @@ def plot_tempoTotal():
 	plt.grid()
 	
 	fig = plt.gcf()
-	fig.set_size_inches(7.8, 6.1) #x, y
+	fig.set_size_inches(x_fig, y_fig) #x, y
 	fig.savefig('tms_tempoTotal' + formato, dpi=200)
 	plt.show()
 
@@ -278,23 +349,23 @@ def plot_distanciaTotal():
 		ax = plt.subplot(111)
 		
 		if(algorithm == "Mobilidade"):
-			ax.bar(x-0.2, distance_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='', label="Mobilidade", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x-0.25, distance_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='', label="MOC", error_kw=dict(elinewidth=1,ecolor='black'))
 			
 		if(algorithm == "TMS"):
-			ax.bar(x, distance_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='//', label="TMS", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x, distance_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='//', label="FASTER", error_kw=dict(elinewidth=1,ecolor='black'))
 			
 		if(algorithm == "TMS-DDRX"):
-			ax.bar(x+0.2, distance_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='\\', label="TMS-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x+0.25, distance_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
 	
-	ax.legend(numpoints=1, loc='upper center', ncol=3, fancybox=True, bbox_to_anchor=(0.5, +1.15))
-	#ax.legend(loc=2, ncol=2, fancybox=True)
+	#ax.legend(numpoints=1, loc='upper center', ncol=3, fancybox=True, bbox_to_anchor=(0.5, +1.15))
+	ax.legend(loc=2, ncol=3, fancybox=True)
 	
 	ax.set_ylabel(u"Distância total (km)")
 	ax.set_xlabel(u"Densidade (veiculos/km²")
 	
-	#yticks = np.arange(0, 105, 10)
-	#ax.set_yticks(yticks)
+	yticks = np.arange(0, 1.2, 0.2)
+	ax.set_yticks(yticks)
 
 	ax.set_xticks(x)
 	ax.set_xticklabels(TRAFFICS)
@@ -304,7 +375,7 @@ def plot_distanciaTotal():
 	plt.grid()
 
 	fig = plt.gcf()
-	fig.set_size_inches(7.8, 6.1) #x, y
+	fig.set_size_inches(x_fig, y_fig) #x, y
 	fig.savefig('tms_distanciaTotal' + formato, dpi=200)
 
 	plt.show()
@@ -321,30 +392,29 @@ def plot_tempoCongestionamento():
 		for traffic in TRAFFICS:
 			values = []
 			file_input_name =  algorithm + "/summary-" + str(traffic) + ".txt"
-
+			
 			replication = 0
 			tempoCongestionamento = 0.0
 			
 			for line in open(file_input_name):
-				if replication == int(line.split()[0]):
+				
+				if replication == int(line.split()[0]) :
 					#print(traffic , " - " , replication , file_input_name , line)
 					if line.split()[2] != "0":
-						if int(line.split()[5]) > 300:
-							#print (algorithm, traffic, replication, "START_TIME MAIOR.")
-							tempoCongestionamento += int(line.split()[2]) + int(line.split()[5])
-						else:
-							tempoCongestionamento += int(line.split()[2])
-				
+						tempoCongestionamento += float(line.split()[2])
 				else:
 				# CHANGED
 					if not tempoCongestionamento == 0:
 						values.append(tempoCongestionamento)
-						tempoCongestionamento = 0
+						tempoCongestionamento = 0.0
 				
 				while replication != int(line.split()[0]):
+					#print (algorithm, traffic, replication, values)
 					replication += 1
-
-			#print (algorithm, traffic, np.mean(tempoCongestionamento))
+					#print (algorithm, traffic, replication, values)
+					#teste.append(replication)
+					
+			#print ("\n")
 			values = np.divide(values,traffic)
 			values = np.divide(values,60)
 			
@@ -355,13 +425,13 @@ def plot_tempoCongestionamento():
 		ax = plt.subplot(111)
 		
 		if(algorithm == "Mobilidade"):
-			ax.bar(x-0.2, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='', label="Mobilidade", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x-0.25, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='', label="MOC", error_kw=dict(elinewidth=1,ecolor='black'))
 		
 		if(algorithm == "TMS"):
-			ax.bar(x, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='//', label="TMS", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='//', label="FASTER", error_kw=dict(elinewidth=1,ecolor='black'))
 			
 		if(algorithm == "TMS-DDRX"):
-			ax.bar(x+0.2, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.2, hatch='\\', label="TMS-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
+			ax.bar(x+0.25, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
 	ax.legend(loc=2, ncol=3, fancybox=True)
 	
@@ -379,7 +449,7 @@ def plot_tempoCongestionamento():
 	plt.grid()
 	
 	fig = plt.gcf()
-	fig.set_size_inches(7.8, 6.1) #x, y
+	fig.set_size_inches(x_fig, y_fig) #x, y
 	fig.savefig('tms_tempoCongestionamento' + formato, dpi=200)
 	
 	plt.show()
@@ -392,12 +462,14 @@ if __name__ == "__main__":
 	plot_cobertura()
 	plot_transmitidos();
 	'''
-	
 	print "\nGrafico de TEMPO TOTAL DE VIAGEM..."
 	plot_tempoTotal()
 	
 	print "\nGrafico de DISTANCIA TOTAL..."
 	plot_distanciaTotal()
+	
+	print "\nGrafico de VELOCIDADE MEDIA..."
+	plot_velocidadeMedia()
 	
 	print "\nGrafico de TEMPO DE CONGESTIONAMENTO..."
 	plot_tempoCongestionamento()
