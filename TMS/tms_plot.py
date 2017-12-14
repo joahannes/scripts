@@ -3,7 +3,7 @@
 # File name: plot_tms.py
 # Author: Joahannes Costa
 # Data create: 03/12/2017
-# Data last modified: 03/12/2017
+# Data last modified: 14/12/2017
 # Python version: 2.7
 # Description: captura dados dos arquivos summary e plota graficos de barras
 
@@ -13,12 +13,16 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+#Variaveis
 ALGORITHMS = ("Mobilidade", "TMS", "TMS-DDRX") #
 TRAFFICS = (700, 900, 1100, 1300, 1500) #
-COLORS = {"Mobilidade" : "r", "TMS" : "blue", "TMS-DDRX" : "gold"} # TMS: #42413e, TMS-DDRX: #efc034
+COLORS = {"Mobilidade" : "r", "TMS" : "blue", "TMS-DDRX" : "gold"}
 formato = ".eps"
 x_fig = 7.8 #7.8
-y_fig = 5.0 #6.1
+y_fig = 5.5 #6.1
+legenda_fig = u"Densidade (veiculos/km²)" #Legenda eixo X
+legenda_size = 16 # Tamanho da fonte
+#bbox_inches = 'tight', pad_inches = 0.05 -> elimina borda desnecessaria da imagem
 
 # summary_file:
 # 0 REPLICATION
@@ -84,25 +88,26 @@ def plot_cobertura():
 		if(algorithm == "TMS-DDRX"):
 			ax.bar(x+0.15, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
-	ax.legend(loc=2, ncol=2, fancybox=True)
+	ax.legend(loc=2, ncol=2, fancybox=True, fontsize=legenda_size)
 	
-	ax.set_ylabel(u"Cobertura (%)")
-	ax.set_xlabel(u"Densidade (veiculos/km²")
+	ax.set_ylabel(u"Cobertura (%)", fontsize=legenda_size)
+	ax.set_xlabel(legenda_fig, fontsize=legenda_size)
 	
 	yticks = np.arange(0, 120, 20)
 	ax.set_yticks(yticks)
 	ax.set_ylim(0,118)
+	ax.set_yticklabels(yticks, fontsize=legenda_size)
 	
 	ax.set_xticks(x)
-	ax.set_xticklabels(TRAFFICS)
+	ax.set_xticklabels(TRAFFICS, fontsize=legenda_size)
 	ax.set_xlim(1.4,6.6)
 	
 	ax.set_axisbelow(3)
 	plt.grid()
 	
 	fig = plt.gcf()
-	fig.set_size_inches(7.8, 6.1) #x, y
-	fig.savefig('tms_cobertura' + formato, dpi=200)
+	fig.set_size_inches(x_fig, y_fig) #x, y
+	fig.savefig('tms_cobertura' + formato, dpi=200, bbox_inches = 'tight', pad_inches = 0.05)
 	
 	plt.show()
 
@@ -139,7 +144,7 @@ def plot_transmitidos():
 			
 			transmitted_values.append(np.mean(values))
 			confidence_intervals.append(confidence_interval(values))
-		
+		#print (algorithm, traffic, transmitted_values)
 		x = np.arange(2, 7, dtype=np.float)
 		ax = plt.subplot(111)
 		
@@ -149,24 +154,25 @@ def plot_transmitidos():
 		if(algorithm == "TMS-DDRX"):
 			ax.bar(x+0.15, transmitted_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.3, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
-	ax.legend(loc=2, ncol=2, fancybox=True)
+	ax.legend(loc=2, ncol=1, fancybox=True, fontsize=legenda_size)
 	
-	ax.set_ylabel(u"Número de pacotes transmitidos (%)")
-	ax.set_xlabel(u"Densidade (veiculos/km²")
+	ax.set_ylabel(u"Número de pacotes transmitidos", fontsize=legenda_size)
+	ax.set_xlabel(legenda_fig, fontsize=legenda_size)
 	
-	#yticks = np.arange(0, 105, 10)
-	#ax.set_yticks(yticks)
+	yticks = np.arange(0, 400, 50)
+	ax.set_yticks(yticks)
+	ax.set_yticklabels(yticks, fontsize=legenda_size)
 
 	ax.set_xticks(x)
-	ax.set_xticklabels(TRAFFICS)
+	ax.set_xticklabels(TRAFFICS, fontsize=legenda_size)
 	ax.set_xlim(1.4,6.6)
 	
 	ax.set_axisbelow(3)
 	plt.grid()
 	
 	fig = plt.gcf()
-	#fig.set_size_inches(7.8, 6.1) #x, y
-	fig.savefig('tms_transmitidos' + formato, dpi=200)
+	fig.set_size_inches(x_fig, y_fig) #x, y
+	fig.savefig('tms_transmitidos' + formato, dpi=200, bbox_inches = 'tight', pad_inches = 0.05)
 	
 	plt.show()
 
@@ -221,16 +227,17 @@ def plot_velocidadeMedia():
 		if(algorithm == "TMS-DDRX"):
 			ax.bar(x+0.25, speed_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
-	ax.legend(loc=2, ncol=3, fancybox=True)
+	ax.legend(loc=1, ncol=2, fancybox=True, fontsize=legenda_size)
 	
-	ax.set_ylabel(u"Velocidade Média (km/h)")
-	ax.set_xlabel(u"Densidade (veiculos/km²")
+	ax.set_ylabel(u"Velocidade Média (km/h)", fontsize=legenda_size)
+	ax.set_xlabel(legenda_fig, fontsize=legenda_size)
 	
-	#yticks = np.arange(0, 10, 1)
-	#ax.set_yticks(yticks)
+	yticks = np.arange(0, 10, 1)
+	ax.set_yticks(yticks)
+	ax.set_yticklabels(yticks, fontsize=legenda_size)
 
 	ax.set_xticks(x)
-	ax.set_xticklabels(TRAFFICS)
+	ax.set_xticklabels(TRAFFICS, fontsize=legenda_size)
 	ax.set_xlim(1.4,6.6)
 	
 	ax.set_axisbelow(3)
@@ -238,7 +245,7 @@ def plot_velocidadeMedia():
 	
 	fig = plt.gcf()
 	fig.set_size_inches(x_fig, y_fig) #x, y
-	fig.savefig('tms_velocidadeMedia' + formato, dpi=200)
+	fig.savefig('tms_velocidadeMedia' + formato, dpi=200, bbox_inches = 'tight', pad_inches = 0.05)
 	
 	plt.show()
 
@@ -259,7 +266,10 @@ def plot_tempoTotal():
 			for line in open(file_input_name):
 				if replication == int(line.split()[0]):
 					if line.split()[6] != "0":
-						tempoTotal += float(line.split()[6])
+						if float(line.split()[5]) > 300:
+							tempoTotal += float(line.split()[6]) + float(line.split()[5])
+						else:
+							tempoTotal += float(line.split()[6])
 
 				else:
 				# CHANGED
@@ -289,16 +299,17 @@ def plot_tempoTotal():
 			ax.bar(x+0.25, coverage_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 		
 	#ax.legend(numpoints=1, loc='upper center', ncol=3, fancybox=True, bbox_to_anchor=(0.5, +1.15))
-	ax.legend(loc=2, ncol=3, fancybox=True)
+	ax.legend(loc=2, ncol=2, fancybox=True, fontsize=legenda_size)
 	
-	ax.set_ylabel(u"Tempo total de viagem (minutos)")
-	ax.set_xlabel(u"Densidade (veiculos/km²")
+	ax.set_ylabel(u"Tempo total de viagem (minutos)", fontsize=legenda_size)
+	ax.set_xlabel(legenda_fig, fontsize=legenda_size)
 
-	#yticks = np.arange(0, 105, 10)
-	#ax.set_yticks(yticks)
+	yticks = np.arange(0, 8, 1)
+	ax.set_yticks(yticks)
+	ax.set_yticklabels(yticks, fontsize=legenda_size)
 
 	ax.set_xticks(x)
-	ax.set_xticklabels(TRAFFICS)
+	ax.set_xticklabels(TRAFFICS, fontsize=legenda_size)
 	ax.set_xlim(1.4,6.6)
 
 	ax.set_axisbelow(3) #grid atras
@@ -306,7 +317,7 @@ def plot_tempoTotal():
 	
 	fig = plt.gcf()
 	fig.set_size_inches(x_fig, y_fig) #x, y
-	fig.savefig('tms_tempoTotal' + formato, dpi=200)
+	fig.savefig('tms_tempoTotal' + formato, dpi=200, bbox_inches = 'tight', pad_inches = 0.05)
 	plt.show()
 
 #DISTANCIA_TOTAL
@@ -315,7 +326,6 @@ def plot_distanciaTotal():
 	for algorithm in ALGORITHMS:
 		distance_values = []
 		confidence_intervals = []
-		
 		
 		for traffic in TRAFFICS:
 			values = []
@@ -359,16 +369,17 @@ def plot_distanciaTotal():
 	
 	
 	#ax.legend(numpoints=1, loc='upper center', ncol=3, fancybox=True, bbox_to_anchor=(0.5, +1.15))
-	ax.legend(loc=2, ncol=3, fancybox=True)
+	ax.legend(loc=2, ncol=2, fancybox=True, fontsize=legenda_size)
 	
-	ax.set_ylabel(u"Distância total (km)")
-	ax.set_xlabel(u"Densidade (veiculos/km²")
+	ax.set_ylabel(u"Distância total (km)", fontsize=legenda_size)
+	ax.set_xlabel(legenda_fig, fontsize=legenda_size)
 	
-	yticks = np.arange(0, 1.2, 0.2)
+	yticks = np.arange(0, 1.25, 0.2)
 	ax.set_yticks(yticks)
+	ax.set_yticklabels(yticks, fontsize=legenda_size)
 
 	ax.set_xticks(x)
-	ax.set_xticklabels(TRAFFICS)
+	ax.set_xticklabels(TRAFFICS, fontsize=legenda_size)
 	ax.set_xlim(1.4,6.6)
 	
 	ax.set_axisbelow(3) #grid atras
@@ -376,7 +387,7 @@ def plot_distanciaTotal():
 
 	fig = plt.gcf()
 	fig.set_size_inches(x_fig, y_fig) #x, y
-	fig.savefig('tms_distanciaTotal' + formato, dpi=200)
+	fig.savefig('tms_distanciaTotal' + formato, dpi=200, bbox_inches = 'tight', pad_inches = 0.05)
 
 	plt.show()
 
@@ -433,16 +444,17 @@ def plot_tempoCongestionamento():
 		if(algorithm == "TMS-DDRX"):
 			ax.bar(x+0.25, congestion_values, align='center', yerr=confidence_intervals, color=COLORS[algorithm], width=0.25, hatch='\\', label="FASTER-DDRX", error_kw=dict(elinewidth=1,ecolor='black'))
 	
-	ax.legend(loc=2, ncol=3, fancybox=True)
+	ax.legend(loc=2, ncol=2, fancybox=True, fontsize=legenda_size)
 	
-	ax.set_ylabel(u"Tempo de Congestionamento (minutos)")
-	ax.set_xlabel(u"Densidade (veiculos/km²")
+	ax.set_ylabel(u"Tempo de Congestionamento (minutos)", fontsize=legenda_size)
+	ax.set_xlabel(legenda_fig, fontsize=legenda_size)
 	
-	#yticks = np.arange(0, 105, 10)
-	#ax.set_yticks(yticks)
+	yticks = np.arange(0, 8, 1)
+	ax.set_yticks(yticks)
+	ax.set_yticklabels(yticks, fontsize=legenda_size)
 
 	ax.set_xticks(x)
-	ax.set_xticklabels(TRAFFICS)
+	ax.set_xticklabels(TRAFFICS, fontsize=legenda_size)
 	ax.set_xlim(1.4,6.6)
 	
 	ax.set_axisbelow(3)
@@ -450,7 +462,7 @@ def plot_tempoCongestionamento():
 	
 	fig = plt.gcf()
 	fig.set_size_inches(x_fig, y_fig) #x, y
-	fig.savefig('tms_tempoCongestionamento' + formato, dpi=200)
+	fig.savefig('tms_tempoCongestionamento' + formato, dpi=200, bbox_inches = 'tight', pad_inches = 0.05)
 	
 	plt.show()
 
@@ -458,10 +470,12 @@ if __name__ == "__main__":
 	pass
 	print "\n *** TMS ***"
 	
-	'''
+	print "\nGrafico de COBERTURA..."
 	plot_cobertura()
+
+	print "\nGrafico de TRANSMISSOES..."
 	plot_transmitidos();
-	'''
+	
 	print "\nGrafico de TEMPO TOTAL DE VIAGEM..."
 	plot_tempoTotal()
 	
