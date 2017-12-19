@@ -210,7 +210,7 @@ def plot_velocidadeMedia():
 					
 			#print ("\n")
 			values = np.divide(values,traffic)
-			#values = np.divide(values,3.6)
+			values = np.multiply(values,3.6)
 			
 			speed_values.append(np.mean(values))
 			confidence_intervals.append(confidence_interval(values))
