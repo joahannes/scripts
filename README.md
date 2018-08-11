@@ -30,7 +30,7 @@ Para executar o plot_scenario.py, basta adicioná-lo na pasta /path/to/sumo-0.XX
 ### Imagem do cenário via SUMO (plot_scenario) ###
 
 <p align="center">
-	<img src="https://github.com/joahannes/scripts/blob/master/img/cenario.png" width="400"/>
+	<img src="https://github.com/joahannes/scripts/blob/master/img/cenario.png" width="300"/>
 </p>
 
 ### Contato ###
