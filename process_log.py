@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# OBS: Mudar "messagesReceived:sum" para "isInROI:sum" no CC-DEGREE e UV-CAST
 
 import os
 
@@ -6,8 +7,15 @@ ALGORITHMS = ("CC-DEGREE","DDRX")
 TRAFFICS = (100,200,300,400,500,600,700)
 REPLICATIONS = 10                
 
-# VARIABLES LOG
-# 0 REPLICATION, 1 HOST, 2 LOSS, 3 DELAY, 4 RECEIVED, 5 TRANSMITTED, 6 DUPLICATES, 7 COLLISIONS
+# summary_file:
+# 0 REPLICATION
+# 1 HOST
+# 2 LOSS
+# 3 DELAY
+# 4 RECEIVED
+# 5 TRANSMITTED
+# 6 DUPLICATES
+# 7 COLLISIONS
 
 def build_summary_files():
     
@@ -69,7 +77,7 @@ def build_summary_files():
                             duplicated = line_splited[3]                             
                             summary_file.write(duplicated + "\t")
                             
-                        if "TotalLostPackets" in line: #CHANGE: collisions:sum -> CC-DEGREE and UV-CAST                      
+                        if "RXTXLostPackets" in line: #CHANGE: collisions:sum -> CC-DEGREE and UV-CAST                      
                             lost = line_splited[3]                             
                             summary_file.write(lost + "\n")
                                                                                                                                                              
